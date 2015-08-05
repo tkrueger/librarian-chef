@@ -302,10 +302,10 @@ module Librarian
 
             # Cookbook files, as pulled from Opscode Community Site API, are
             # embedded in a subdirectory of the tarball. If created by git archive they
-            # can include the subfolder `pax_global_header`, which is ignored.
+            # can include the subfolders `pax_global_header` or 'PaxHeader', which are ignored.
             subtemps = temp.children
             subtemps.empty? and raise "The package archive was empty!"
-            subtemps.delete_if{|pth| pth.to_s[/pax_global_header/]}
+            subtemps.delete_if{|pth| pth.to_s[/pax_global_header|PaxHeader/]}
             subtemps.size > 1 and raise "The package archive has too many children!"
             subtemp = subtemps.first
             debug { "Moving #{relative_path_to(subtemp)} to #{relative_path_to(path)}" }
